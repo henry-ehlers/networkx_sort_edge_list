@@ -3,9 +3,10 @@ import itertools as it
 
 def unlist(nested_list: [[]]) -> []:
     """
-    A function which transforms a nested list into a list of a single level
-    :param nested_list: a nested list of depth 2
-    :return: a list of depth zero
+    A function which transforms a nested list into a list of a single level, for example a list of lists
+    [[a, c], [d, b], [b, e]] would be transformed to a list of [a, c, d, b, b, e]
+    :param nested_list: a nested list of iterables
+    :return: a list of depth -= 1
     """
 
     # Return an un-nested list
