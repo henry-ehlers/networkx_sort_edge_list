@@ -34,7 +34,20 @@ def has_unique_order(edges, starting_vertex=None):
     # If the starting vertex is provided, ensure that it corresponds to end point vertex
     if (starting_vertex is not None) and (len(ends) > 0):
         assert starting_vertex in ends, \
-            f"Provided starting vertex {starting_vertex} not a valid end points {ends}."
+            f"Provided starting vertex {starting_vertex} not a valid selection from end points {ends}."
+
+    # Return a starting vertex if it was provided and is legal
+    if starting_vertex is not None:
+        return starting_vertex
+
+    # If a legal sequence of edges was provided, return one of its end-points
+    elif len(ends) > 0:
+        return ends[0]
+
+    # If a legal cycle was provided, return an (effectively) random vertex
+    else:
+        return vertices[0]
+
 
 def get_ordered_edges(edges, starting_vertex=None):
 
@@ -64,6 +77,14 @@ def get_ordered_edges(edges, starting_vertex=None):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     edge_list_sequence = [(1, 2), (5, 2), (1, 0), (5, 4)]
-    edge_list_cyclical = [(1, 2), (5, 2), (1, 0), (5, 1)]
-    edge_list_illegals = []
+    edge_list_cyclical = [(1, 2), (5, 2), (1, 0), (5, 0)]
+    edge_list_illegals = [(1, 2), (5, 2), (1, 0), (5, 1)]
 
+    print(f"Sequence with no starting Vertex -> {has_unique_order(edge_list_sequence)}")
+    print(f"Sequence with starting Vertex {4} -> {has_unique_order(edge_list_sequence, starting_vertex=4)}")
+    print(f"Cycle with no starting vertex -> {has_unique_order(edge_list_cyclical)}")
+    print(f"Cycle with starting vertex {5} -> {has_unique_order(edge_list_cyclical, starting_vertex=5)}")
+
+    print(f"Sequence with illegal starting Vertex {1} -> {has_unique_order(edge_list_sequence, starting_vertex=1)}")
+    # print(f"Cycle with illegal starting vertex {6} -> {has_unique_order(edge_list_cyclical, starting_vertex=6)}")
+    #print(f"Illegal Edge Set with no starting vertex -> {has_unique_order(edge_list_illegals)}")
