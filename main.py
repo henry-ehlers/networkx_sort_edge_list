@@ -1,12 +1,26 @@
 import itertools as it
 
 
-def unlist(nested_list):
+def unlist(nested_list: [[]]) -> []:
+    """
+    A function which transforms a nested list into a list of a single level
+    :param nested_list: a nested list of depth 2
+    :return: a list of depth zero
+    """
+
+    # Return an un-nested list
     return list(it.chain.from_iterable(nested_list))
 
 
-def get_valid_starting_vertex(edges: [(int, int)], starting_vertex: int = None):
-    """"""
+def get_valid_starting_vertex(edges: [(int, int)], starting_vertex: int = None) -> int:
+    """
+    A function to either obtain a valid starting vertex from a list of edges, or ensure the provided starting vertex is
+    indeed a valid choice, i.e. that the provided list of edges is either a cycle of edges or a sequence with two
+    defined end-points
+    :param edges: a list of (unsorted) edges as tuples to be sorted
+    :param starting_vertex: an optional single integer vertex at which to start the sorting
+    :return: the integer identifier of the starting vertex
+    """
 
     # Extract a list of vertices from the list of edges
     vertices = unlist(edges)
@@ -51,7 +65,13 @@ def get_valid_starting_vertex(edges: [(int, int)], starting_vertex: int = None):
         return vertices[0]
 
 
-def get_first_edge(edges: [(int, int)], starting_vertex: int):
+def get_first_edge(edges: [(int, int)], starting_vertex: int) -> (int, int):
+    """
+    A function which returns an edge which features the provided starting vertex in its first position
+    :param edges: a list of (unsorted) edges as tuples to be sorted
+    :param starting_vertex: an optional single integer vertex at which to start the sorting
+    :return: a sorted list of edges
+    """
 
     # Iterate over all edges in set
     for edge in edges:
@@ -68,7 +88,14 @@ def get_first_edge(edges: [(int, int)], starting_vertex: int):
     assert True, f"Starting Vertex {starting_vertex} mapped to no edge {edges}"
 
 
-def get_ordered_edges(edges: [(int, int)], starting_vertex: int = None):
+def get_ordered_edges(edges: [(int, int)], starting_vertex: int = None) -> [(int, int)]:
+    """
+    A function to sort a list of edges provided as tuples, such that the second vertex of an edge corresponds to the
+    first vertex of the next edge, i.e. (a, c) (c, b) (b, a)
+    :param edges: a list of (unsorted) edges as tuples to be sorted
+    :param starting_vertex: an optional single integer vertex at which to start the sorting
+    :return: a sorted list of edges
+    """
 
     # Get a valid starting vertex / Ensure the provided one is valid
     starting_vertex = get_valid_starting_vertex(edges, starting_vertex)
@@ -105,11 +132,11 @@ def get_ordered_edges(edges: [(int, int)], starting_vertex: int = None):
                 remaining_edges.remove(frozenset(r_edge))
                 break
 
-    # Ensure
+    # Ensure no edges remain to be sorted
     assert len(remaining_edges) == 0, \
         f"Not all edges sorted. These remain: {sorted_edges}"
 
-    #
+    # Return sorted edges as list of tuples
     return sorted_edges
 
 
